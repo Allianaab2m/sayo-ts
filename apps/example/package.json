@@ -1,0 +1,24 @@
+{
+  "name": "example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.96.0",
+    "@effect/platform-node": "^0.106.0",
+    "@sayo-ts/core": "workspace:*",
+    "effect": "^3.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}

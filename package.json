@@ -1,0 +1,26 @@
+{
+  "name": "sayo-ts-root",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev --parallel",
+    "clean": "turbo run clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.30.0",
+    "turbo": "^2.8.20",
+    "vitest": "^4.1.0"
+  }
+}
