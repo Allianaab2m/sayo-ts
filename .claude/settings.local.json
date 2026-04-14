@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --version)",
+      "Bash(git init:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm --filter @lucent-ts/core add effect @effect/platform @effect/platform-node)",
+      "Bash(pnpm --filter @lucent-ts/core add -D typescript tsup vitest @types/node)",
+      "Bash(pnpm --filter example add effect @effect/platform @effect/platform-node @lucent-ts/core)",
+      "Bash(pnpm --filter example add -D typescript @types/node tsx)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm build:*)",
+      "Bash(grep -r \"replaceScoped\\\\|replace\" /Users/alliana/ghq/github.com/Allianaab2m/lucent-ts/node_modules/.pnpm/effect*/node_modules/effect/dist/esm/Logger.d.ts)",
+      "Bash(pnpm:*)",
+      "Bash(curl -s http://localhost:3000/api/v1/users)",
+      "Bash(kill %1)",
+      "Bash(find /Users/alliana/ghq/github.com/Allianaab2m/sayo-ts/node_modules -path */@effect/platform -type d)",
+      "Bash(ls /Users/alliana/ghq/github.com/Allianaab2m/sayo-ts/node_modules/.pnpm/@effect+platform*/node_modules/@effect/platform/)",
+      "Bash(grep -E \"^\\\\-.*\\\\.\\(json|ts|js\\)$\")",
+      "Bash(ls:*)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs kill:*)",
+      "Bash(npx tsc:*)",
+      "Bash(/Users/alliana/ghq/github.com/Allianaab2m/sayo-ts/packages/core/src/test-validate.ts:*)",
+      "WebFetch(domain:effect.website)",
+      "Bash(find /Users/alliana/ghq/github.com/Allianaab2m/sayo-ts -maxdepth 3 -name eslint* -o -name .eslint*)",
+      "Bash(mv docs/08-middleware.md docs/09-middleware.md)",
+      "Bash(mv docs/07-router-and-app.md docs/08-router-and-app.md)",
+      "Bash(mv docs/06-services.md docs/07-services.md)",
+      "Bash(mv docs/05-error-handling.md docs/06-error-handling.md)"
+    ]
+  }
+}
