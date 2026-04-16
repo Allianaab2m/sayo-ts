@@ -1,9 +1,34 @@
 {
-  "name": "@sayo/cli",
+  "name": "@sayo-ts/cli",
   "version": "0.0.1",
+  "description": "sayo-ts CLI — scaffold resource modules for Effect v4 HttpApi apps",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "sayo": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allianaab2m/sayo-ts.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/Allianaab2m/sayo-ts/tree/main/packages/cli#readme",
+  "bugs": "https://github.com/Allianaab2m/sayo-ts/issues",
+  "keywords": [
+    "cli",
+    "scaffolding",
+    "effect",
+    "effect-ts",
+    "sayo",
+    "sayo-ts"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc",
