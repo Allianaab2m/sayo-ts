@@ -1,0 +1,15 @@
+{
+  "name": "create-sayo-app",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "create-sayo-app": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  }
+}

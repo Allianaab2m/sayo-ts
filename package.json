@@ -1,0 +1,19 @@
+{
+  "name": "sayo-ts",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@10.14.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "clean": "pnpm -r run clean"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.2"
+  }
+}

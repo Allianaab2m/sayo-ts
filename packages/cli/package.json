@@ -1,0 +1,15 @@
+{
+  "name": "@sayo/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "sayo": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  }
+}
