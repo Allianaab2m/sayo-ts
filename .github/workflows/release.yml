@@ -1,0 +1,78 @@
+name: Release
+
+# Publishes to npm via npm Trusted Publishers (OIDC).
+#
+# Prerequisites (one-time setup on https://www.npmjs.com):
+#   1. Create the npm org/scope `@sayo-ts` (or use a user scope).
+#   2. For each package (`@sayo-ts/eslint-plugin`, `@sayo-ts/cli`,
+#      `create-sayo-app`), open the package's "Settings" → "Publishing access"
+#      → "Add trusted publisher" → "GitHub Actions" and fill in:
+#        - Organization or user: Allianaab2m
+#        - Repository:           sayo-ts
+#        - Workflow filename:    release.yml
+#        - Environment:          (leave blank)
+#      npm allows configuring a trusted publisher BEFORE the first publish —
+#      the package name is reserved and the first release is emitted via OIDC.
+#
+# Once configured, no NPM_TOKEN secret is needed. Publishes will include
+# provenance attestations automatically.
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    # - contents/pull-requests: for changesets to open the "Version Packages" PR
+    # - id-token: required so `npm publish --provenance` can request an OIDC
+    #   token from GitHub and exchange it with the npm registry
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Node 24+ ships an npm that natively supports OIDC Trusted
+          # Publishers. Older Node versions work too as long as npm >= 11.5.1
+          # is available, but pinning to 24 keeps the toolchain predictable.
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm -r --filter="./packages/*" run build
+
+      - name: Create release PR or publish
+        uses: changesets/action@v1
+        with:
+          # With pending changesets → opens/updates the "Version Packages" PR.
+          # When that PR is merged → runs `pnpm release` which builds and
+          # invokes `changeset publish` → `npm publish --provenance` per
+          # package, authenticated via OIDC.
+          version: pnpm run version-packages
+          publish: pnpm run release
+          commit: "chore: version packages"
+          title: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Triggers `npm publish` to request an OIDC token and emit
+          # provenance. No long-lived NPM_TOKEN required.
+          NPM_CONFIG_PROVENANCE: "true"
