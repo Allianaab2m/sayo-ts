@@ -1,6 +1,6 @@
 {
   "name": "@sayo-ts/eslint-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ESLint rules enforcing sayo-ts conventions on top of Effect v4 HttpApi",
   "license": "MIT",
   "type": "module",

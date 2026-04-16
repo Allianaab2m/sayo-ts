@@ -1,6 +1,6 @@
 {
   "name": "@sayo-ts/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "sayo-ts CLI — scaffold resource modules for Effect v4 HttpApi apps",
   "license": "MIT",
   "type": "module",

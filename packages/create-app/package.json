@@ -1,6 +1,6 @@
 {
   "name": "create-sayo-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create a new sayo-ts application — an opinionated Effect v4 HttpApi starter",
   "license": "MIT",
   "type": "module",
