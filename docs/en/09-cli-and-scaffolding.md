@@ -23,7 +23,7 @@ Under the hood:
 2. Copies `templates/default/`, filtering out `node_modules`, `dist`, `.turbo`
 3. Rewrites `package.json` in the copy:
    - Sets `name` to `my-project`
-   - Replaces `workspace:*` entries for `@sayo/eslint-plugin` with the released version (e.g. `^0.0.1`)
+   - Replaces `workspace:*` entries for `@sayo-ts/eslint-plugin` with the released version (e.g. `^0.0.1`)
 4. Runs `pnpm install`
 5. Prints a completion message with next steps (`cd my-project`, `pnpm dev`, ...)
 

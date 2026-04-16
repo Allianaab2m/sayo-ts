@@ -17,8 +17,8 @@ sayo-ts is a **thin convention layer on top of Effect v4 `HttpApi`**.
 
 It includes:
 
-- `@sayo/eslint-plugin` — enforces conventions with ESLint rules
-- `@sayo/cli` (`sayo`) — scaffolds resource modules
+- `@sayo-ts/eslint-plugin` — enforces conventions with ESLint rules
+- `@sayo-ts/cli` (`sayo`) — scaffolds resource modules
 - `create-sayo-app` — project template generator
 - `templates/default` — a sample app with full type-safe Layer composition
 
@@ -36,7 +36,7 @@ Unlike Rails or NestJS, sayo-ts only layers **directory conventions, naming, and
 The thread running through sayo-ts is that **the same standard should apply no matter who wrote the code**.
 
 - Effect's type system rejects "missing dependencies, undeclared errors, and unimplemented endpoints" at build time
-- `@sayo/eslint-plugin` mechanically catches the convention violations that keep coming up in review
+- `@sayo-ts/eslint-plugin` mechanically catches the convention violations that keep coming up in review
 - `Schema` collapses "TS type, runtime validator, OpenAPI schema, client type" into a single declaration
 - `sayo generate` produces the same file layout every time
 
@@ -87,7 +87,7 @@ my-project/
 │   └── users/
 │       ├── handlers.test.ts     # Integration tests via HttpApiClient
 │       └── service.mock.ts      # Mock Layer
-├── eslint.config.ts             # @sayo/eslint-plugin
+├── eslint.config.ts             # @sayo-ts/eslint-plugin
 ├── tsconfig.json
 └── package.json
 ```

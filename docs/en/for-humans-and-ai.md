@@ -28,7 +28,7 @@ Effect's `Effect.Effect<A, E, R>` tracks **success, failure, and dependencies** 
 - Forgetting `Layer.provide(UserServiceLive)` → build error (`UserService` remains in `R`)
 - A handler throws an error that isn't declared in the endpoint's `error` → build error (handler `E` doesn't match `api.ts`)
 - Some endpoint doesn't have a handler → build error (`HttpApiBuilder.group` is incomplete)
-- `Effect.fail("string")` and other non-tagged errors → warning (`sayo/tagged-error-required`)
+- `Effect.fail("string")` and other non-tagged errors → warning (`@sayo-ts/tagged-error-required`)
 
 This catches human slips **and** AI hallucinations in exactly the same way. The type checker doesn't care who typed the code; it just rejects what doesn't fit.
 
@@ -36,7 +36,7 @@ Related: [02. Effect Essentials](./02-effect-essentials.md), [03. Layer & DI](./
 
 ## Mechanism 2: conventions are expressed as ESLint rules
 
-The seven rules in `@sayo/eslint-plugin` are patterns that "keep coming up in reviews" turned into machine-readable checks:
+The seven rules in `@sayo-ts/eslint-plugin` are patterns that "keep coming up in reviews" turned into machine-readable checks:
 
 - `no-raw-promise` / `no-try-catch` / `no-run-sync-in-handler` — don't escape the Fiber runtime
 - `tagged-error-required` — keep error design at the type level
@@ -118,7 +118,7 @@ If an assistant's output can't pass these three, the issue is rarely "more promp
 When opening or merging a PR, the following checklist holds regardless of author:
 
 - [ ] `pnpm tsc --noEmit` passes (no type errors)
-- [ ] `pnpm lint` passes (no `@sayo/eslint-plugin` violations)
+- [ ] `pnpm lint` passes (no `@sayo-ts/eslint-plugin` violations)
 - [ ] `pnpm test` passes (including `NodeHttpServer.layerTest` integration tests)
 - [ ] New resources are wired into `src/api.ts` and `src/main.ts`
 - [ ] New error types use `Schema.TaggedErrorClass`

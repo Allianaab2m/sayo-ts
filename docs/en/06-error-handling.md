@@ -14,7 +14,7 @@ Prerequisite chapters: [02. Effect Essentials](./02-effect-essentials.md), [04. 
 
 ## Express domain errors with Tagged Classes
 
-In sayo-ts, every error is defined as a subclass of `Schema.TaggedErrorClass` (enforced by `sayo/tagged-error-required`).
+In sayo-ts, every error is defined as a subclass of `Schema.TaggedErrorClass` (enforced by `@sayo-ts/tagged-error-required`).
 
 ```ts
 // templates/default/src/users/errors.ts
@@ -170,7 +170,7 @@ h.handle("getUser", (req) =>
 
 ## Summary
 
-- Define errors as `Schema.TaggedErrorClass` (`sayo/tagged-error-required` enforces it)
+- Define errors as `Schema.TaggedErrorClass` (`@sayo-ts/tagged-error-required` enforces it)
 - Every error a handler can raise **must** be declared on the endpoint's `error`
 - Pair errors with `.pipe(HttpApiSchema.status(code))` to set the HTTP status
 - Errors flow through the Effect `E` parameter with full exhaustiveness checks
@@ -178,7 +178,7 @@ h.handle("getUser", (req) =>
 
 ### Related ESLint rules
 
-- `sayo/tagged-error-required` (warn): no `Effect.fail("string")` or `new Error()`
-- `sayo/endpoint-error-schema-required` (warn): missing `error` on an endpoint
+- `@sayo-ts/tagged-error-required` (warn): no `Effect.fail("string")` or `new Error()`
+- `@sayo-ts/endpoint-error-schema-required` (warn): missing `error` on an endpoint
 
 Next: [07. Validation](./07-validation.md) dives into `Schema`.
