@@ -21,18 +21,18 @@ const plugin = {
   configs: {
     recommended: {
       plugins: {
-        get sayo(): typeof plugin {
+        get "@sayo-ts"(): typeof plugin {
           return plugin
         },
       },
       rules: {
-        "sayo/no-raw-promise": "error" as const,
-        "sayo/no-try-catch": "error" as const,
-        "sayo/tagged-error-required": "warn" as const,
-        "sayo/endpoint-response-schema-required": "warn" as const,
-        "sayo/endpoint-error-schema-required": "warn" as const,
-        "sayo/no-run-sync-in-handler": "error" as const,
-        "sayo/service-interface-separation": "warn" as const,
+        "@sayo-ts/no-raw-promise": "error" as const,
+        "@sayo-ts/no-try-catch": "error" as const,
+        "@sayo-ts/tagged-error-required": "warn" as const,
+        "@sayo-ts/endpoint-response-schema-required": "warn" as const,
+        "@sayo-ts/endpoint-error-schema-required": "warn" as const,
+        "@sayo-ts/no-run-sync-in-handler": "error" as const,
+        "@sayo-ts/service-interface-separation": "warn" as const,
       },
     },
   },

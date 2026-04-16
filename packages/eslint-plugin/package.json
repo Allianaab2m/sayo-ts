@@ -1,9 +1,40 @@
 {
-  "name": "@sayo/eslint-plugin",
+  "name": "@sayo-ts/eslint-plugin",
   "version": "0.0.1",
+  "description": "ESLint rules enforcing sayo-ts conventions on top of Effect v4 HttpApi",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allianaab2m/sayo-ts.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "homepage": "https://github.com/Allianaab2m/sayo-ts/tree/main/packages/eslint-plugin#readme",
+  "bugs": "https://github.com/Allianaab2m/sayo-ts/issues",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "effect",
+    "effect-ts",
+    "sayo",
+    "sayo-ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest",
