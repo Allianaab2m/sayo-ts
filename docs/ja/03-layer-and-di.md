@@ -82,7 +82,7 @@ export const UserServiceLive: Layer.Layer<UserService> = Layer.succeed(
 - `UserService.of({...})` はインターフェースを満たすオブジェクトを作るヘルパ (型検査が効く)
 - 返り値の型 `Layer.Layer<UserService>` は「`UserService` を **提供する** Layer (他に必要な依存はない)」を意味する
 
-この **`service.ts` (ポート) と `service.live.ts` (アダプタ) を別ファイルにする** 慣習は `sayo/service-interface-separation` ルールで強制されます。テスト時にモックと入れ替えやすくするための分離です。
+この **`service.ts` (ポート) と `service.live.ts` (アダプタ) を別ファイルにする** 慣習は `@sayo-ts/service-interface-separation` ルールで強制されます。テスト時にモックと入れ替えやすくするための分離です。
 
 ## `Layer.Layer<Provides, E, Requires>`
 
@@ -292,7 +292,7 @@ const ServerLive = HttpRouter.serve(ApiLive).pipe(
 
 ### 関連 ESLint ルール
 
-- `sayo/service-interface-separation` (warn): 同じファイルに `Context.Service` と `Layer` 実装を書くと警告
+- `@sayo-ts/service-interface-separation` (warn): 同じファイルに `Context.Service` と `Layer` 実装を書くと警告
 
 ### Rails / NestJS ではどう呼ぶか
 

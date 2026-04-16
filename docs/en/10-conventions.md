@@ -2,7 +2,7 @@
 
 What you will learn:
 
-- All seven rules in `@sayo/eslint-plugin`, with good / bad examples
+- All seven rules in `@sayo-ts/eslint-plugin`, with good / bad examples
 - Wiring them into a flat-config `eslint.config.ts`
 - How to disable individual rules
 
@@ -21,7 +21,7 @@ Wire the plugin into a flat config:
 ```ts
 // eslint.config.ts
 import tsParser from "@typescript-eslint/parser"
-import sayo from "@sayo/eslint-plugin"
+import sayo from "@sayo-ts/eslint-plugin"
 
 export default [
   {
@@ -38,13 +38,13 @@ export default [
 
 | Rule | Severity | Category |
 | --- | --- | --- |
-| [`sayo/no-raw-promise`](#no-raw-promise) | error | Effect safety |
-| [`sayo/no-try-catch`](#no-try-catch) | error | Effect safety |
-| [`sayo/tagged-error-required`](#tagged-error-required) | warn | Error design |
-| [`sayo/endpoint-response-schema-required`](#endpoint-response-schema-required) | warn | API contract |
-| [`sayo/endpoint-error-schema-required`](#endpoint-error-schema-required) | warn | API contract |
-| [`sayo/no-run-sync-in-handler`](#no-run-sync-in-handler) | error | Effect safety |
-| [`sayo/service-interface-separation`](#service-interface-separation) | warn | Directory convention |
+| [`@sayo-ts/no-raw-promise`](#no-raw-promise) | error | Effect safety |
+| [`@sayo-ts/no-try-catch`](#no-try-catch) | error | Effect safety |
+| [`@sayo-ts/tagged-error-required`](#tagged-error-required) | warn | Error design |
+| [`@sayo-ts/endpoint-response-schema-required`](#endpoint-response-schema-required) | warn | API contract |
+| [`@sayo-ts/endpoint-error-schema-required`](#endpoint-error-schema-required) | warn | API contract |
+| [`@sayo-ts/no-run-sync-in-handler`](#no-run-sync-in-handler) | error | Effect safety |
+| [`@sayo-ts/service-interface-separation`](#service-interface-separation) | warn | Directory convention |
 
 ---
 
@@ -258,14 +258,14 @@ export const UserServiceLive = Layer.succeed(UserService, UserService.of({...}))
 ### Legacy code in a single file
 
 ```ts
-/* eslint-disable sayo/no-raw-promise */
+/* eslint-disable @sayo-ts/no-raw-promise */
 // raw Promises allowed in this file only
 ```
 
 ### One line
 
 ```ts
-// eslint-disable-next-line sayo/no-try-catch
+// eslint-disable-next-line @sayo-ts/no-try-catch
 try { /* ... */ } catch (e) { /* legacy */ }
 ```
 
@@ -278,8 +278,8 @@ export default [
   {
     files: ["src/legacy/**/*.ts"],
     rules: {
-      "sayo/no-raw-promise": "off",
-      "sayo/no-try-catch": "off",
+      "@sayo-ts/no-raw-promise": "off",
+      "@sayo-ts/no-try-catch": "off",
     },
   },
 ]

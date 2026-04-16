@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm -r --filter="./packages/*" run build
+
+      - name: Test
+        # Only @sayo-ts/eslint-plugin defines a `test` script today. When
+        # more packages add tests, either extend this filter or switch to
+        # `pnpm -r run --if-present test` (note: --if-present must appear
+        # before the script name so pnpm consumes it rather than forwarding
+        # it to the test runner).
+        run: pnpm --filter "@sayo-ts/eslint-plugin" test

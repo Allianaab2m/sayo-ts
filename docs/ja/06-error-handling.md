@@ -14,7 +14,7 @@
 
 ## ドメインエラーを Tagged Class で表現する
 
-sayo-ts ではエラーを **必ず `Schema.TaggedErrorClass` のサブクラス** として定義します (`sayo/tagged-error-required` ルールで警告)。
+sayo-ts ではエラーを **必ず `Schema.TaggedErrorClass` のサブクラス** として定義します (`@sayo-ts/tagged-error-required` ルールで警告)。
 
 ```ts
 // templates/default/src/users/errors.ts
@@ -173,7 +173,7 @@ h.handle("getUser", (req) =>
 
 ## この章のまとめ
 
-- エラーは `Schema.TaggedErrorClass` で定義 (`sayo/tagged-error-required` で警告)
+- エラーは `Schema.TaggedErrorClass` で定義 (`@sayo-ts/tagged-error-required` で警告)
 - ハンドラが返し得るエラーはエンドポイント `error` に**必ず**宣言する
 - HTTP ステータスは `.pipe(HttpApiSchema.status(code))` で付与
 - エラーは Effect の `E` を通じて型で伝播し、網羅性が保証される
@@ -181,7 +181,7 @@ h.handle("getUser", (req) =>
 
 ### 関連 ESLint ルール
 
-- `sayo/tagged-error-required` (warn): `Effect.fail("string")` や `new Error()` を禁止
-- `sayo/endpoint-error-schema-required` (warn): エンドポイント `error` の宣言忘れ
+- `@sayo-ts/tagged-error-required` (warn): `Effect.fail("string")` や `new Error()` を禁止
+- `@sayo-ts/endpoint-error-schema-required` (warn): エンドポイント `error` の宣言忘れ
 
 次は [07. バリデーションとスキーマ](./07-validation.md) で `Schema` を深掘りします。

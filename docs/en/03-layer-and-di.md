@@ -82,7 +82,7 @@ export const UserServiceLive: Layer.Layer<UserService> = Layer.succeed(
 - `UserService.of({...})` is a type-checked helper for building an object that matches the interface
 - The return type `Layer.Layer<UserService>` reads "a Layer that **provides** `UserService`, with no further requirements"
 
-Keeping `service.ts` (port) and `service.live.ts` (adapter) in separate files is enforced by the `sayo/service-interface-separation` rule — the split makes swapping implementations in tests effortless.
+Keeping `service.ts` (port) and `service.live.ts` (adapter) in separate files is enforced by the `@sayo-ts/service-interface-separation` rule — the split makes swapping implementations in tests effortless.
 
 ## `Layer.Layer<Provides, E, Requires>`
 
@@ -287,7 +287,7 @@ const ServerLive = HttpRouter.serve(ApiLive).pipe(
 
 ### Related ESLint rules
 
-- `sayo/service-interface-separation` (warn): defining a `Context.Service` and its `Layer` in the same file triggers a warning
+- `@sayo-ts/service-interface-separation` (warn): defining a `Context.Service` and its `Layer` in the same file triggers a warning
 
 ### Rails / NestJS equivalents
 

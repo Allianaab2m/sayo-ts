@@ -23,7 +23,7 @@ npx create-sayo-app my-project
 2. 同梱テンプレ (`templates/default/`) を `node_modules`, `dist`, `.turbo` を除外してコピー
 3. コピー先の `package.json` を書き換え
    - `name` を `my-project` に置換
-   - `workspace:*` として指定されている `@sayo/eslint-plugin` を実際のリリース版 (例 `^0.0.1`) に置換
+   - `workspace:*` として指定されている `@sayo-ts/eslint-plugin` を実際のリリース版 (例 `^0.0.1`) に置換
 4. `pnpm install` を実行
 5. 完了メッセージ (`cd my-project`, `pnpm dev` など) を出力
 
@@ -148,4 +148,4 @@ sayo-ts は意図的に **HTTP 層 + Effect 規約** に絞ってジェネレー
 
 `sayo generate` が **毎回同じ構成** を出力するのは、人間の記憶依存を減らすだけでなく、AI コーディング補助が "それっぽい" 架空のディレクトリ構成や命名を発明することを抑える効果もあります。先に `sayo generate` を実行してから AI に渡す、という単純な手順が、プロンプトでは伝えきれない配置規約を物理的に固定する近道です。詳細は [人と AI のためのフレームワーク](./for-humans-and-ai.md) を参照。
 
-次は [10. 規約と Lint ルール](./10-conventions.md) で、`@sayo/eslint-plugin` のルールを一覧します。
+次は [10. 規約と Lint ルール](./10-conventions.md) で、`@sayo-ts/eslint-plugin` のルールを一覧します。

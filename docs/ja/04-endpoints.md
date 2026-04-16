@@ -175,9 +175,9 @@ export const UsersHandlers = HttpApiBuilder.group(
 
 **やってはいけない**:
 
-- `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` を呼ぶ (`sayo/no-run-sync-in-handler` で error)
-- 生の `Promise` を作る (`sayo/no-raw-promise` で error)
-- `try` / `catch` を書く (`sayo/no-try-catch` で error)
+- `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` を呼ぶ (`@sayo-ts/no-run-sync-in-handler` で error)
+- 生の `Promise` を作る (`@sayo-ts/no-raw-promise` で error)
+- `try` / `catch` を書く (`@sayo-ts/no-try-catch` で error)
 
 これらは Fiber ランタイム / エラー追跡 / キャンセル伝播を壊すため禁止されています。
 
@@ -244,8 +244,8 @@ const program = Effect.gen(function* () {
 
 ### 関連 ESLint ルール
 
-- `sayo/endpoint-response-schema-required` (warn): `success` の宣言漏れ
-- `sayo/endpoint-error-schema-required` (warn): `error` の宣言漏れ
-- `sayo/no-run-sync-in-handler` (error): ハンドラ内での `Effect.runXxx` 禁止
+- `@sayo-ts/endpoint-response-schema-required` (warn): `success` の宣言漏れ
+- `@sayo-ts/endpoint-error-schema-required` (warn): `error` の宣言漏れ
+- `@sayo-ts/no-run-sync-in-handler` (error): ハンドラ内での `Effect.runXxx` 禁止
 
 次は [05. ミドルウェア](./05-middleware.md) で横断的関心事の扱い方を学びます。

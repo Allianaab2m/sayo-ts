@@ -10,9 +10,13 @@
     "build": "pnpm -r run build",
     "lint": "pnpm -r run lint",
     "test": "pnpm -r run test",
-    "clean": "pnpm -r run clean"
+    "clean": "pnpm -r run clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm -r --filter=\"./packages/*\" run build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.12",
     "@types/node": "^25.6.0",
     "typescript": "^6.0.2"
   }

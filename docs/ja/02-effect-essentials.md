@@ -190,11 +190,11 @@ await program.pipe(Effect.provide(TestLive), Effect.runPromise)
 
 `Effect.runPromise` が `Promise` に変換し、Vitest の `await` に乗せます。
 
-**ハンドラ内で `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` を呼んではいけません！** — Fiber の外で走らせてしまい、エラー追跡やキャンセルが壊れます。これは `sayo/no-run-sync-in-handler` ルールで強制されます。
+**ハンドラ内で `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` を呼んではいけません！** — Fiber の外で走らせてしまい、エラー追跡やキャンセルが壊れます。これは `@sayo-ts/no-run-sync-in-handler` ルールで強制されます。
 
 ## なぜ `Promise` / `try-catch` を避けるのか
 
-`@sayo/eslint-plugin` は `new Promise`, `Promise.resolve/reject/all/...`, 素の `try-catch` を禁止します。
+`@sayo-ts/eslint-plugin` は `new Promise`, `Promise.resolve/reject/all/...`, 素の `try-catch` を禁止します。
 
 理由:
 

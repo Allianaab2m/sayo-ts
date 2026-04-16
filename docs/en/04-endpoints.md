@@ -175,9 +175,9 @@ The `R` parameter of the returned Effect captures every service the handler need
 
 **Not OK**:
 
-- `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` (error: `sayo/no-run-sync-in-handler`)
-- Raw `Promise` constructs (error: `sayo/no-raw-promise`)
-- `try` / `catch` blocks (error: `sayo/no-try-catch`)
+- `Effect.runSync` / `Effect.runPromise` / `Effect.runFork` (error: `@sayo-ts/no-run-sync-in-handler`)
+- Raw `Promise` constructs (error: `@sayo-ts/no-raw-promise`)
+- `try` / `catch` blocks (error: `@sayo-ts/no-try-catch`)
 
 These would escape the Fiber runtime and break error tracking / cancellation propagation.
 
@@ -244,8 +244,8 @@ Testing uses the same client (see [08. Testing](./08-testing.md)).
 
 ### Related ESLint rules
 
-- `sayo/endpoint-response-schema-required` (warn): missing `success`
-- `sayo/endpoint-error-schema-required` (warn): missing `error`
-- `sayo/no-run-sync-in-handler` (error): no `Effect.runXxx` inside handlers
+- `@sayo-ts/endpoint-response-schema-required` (warn): missing `success`
+- `@sayo-ts/endpoint-error-schema-required` (warn): missing `error`
+- `@sayo-ts/no-run-sync-in-handler` (error): no `Effect.runXxx` inside handlers
 
 Next: [05. Middleware](./05-middleware.md).

@@ -43,7 +43,7 @@ my-project/
 │   └── users/
 │       ├── handlers.test.ts     # API tests with HttpApiClient
 │       └── service.mock.ts      # Mock Layer for testing
-└── eslint.config.ts             # @sayo/eslint-plugin
+└── eslint.config.ts             # @sayo-ts/eslint-plugin
 ```
 
 ## Scaffolding
@@ -58,23 +58,23 @@ This creates the full directory structure with all files following the conventio
 
 ## ESLint Rules
 
-The framework's conventions are enforced through ESLint rules in `@sayo/eslint-plugin`:
+The framework's conventions are enforced through ESLint rules in `@sayo-ts/eslint-plugin`:
 
 | Rule | Severity | Purpose |
 |------|----------|---------|
-| `sayo/no-raw-promise` | error | Use `Effect.tryPromise()` instead of raw Promise |
-| `sayo/no-try-catch` | error | Use `Effect.try()` / `Effect.fail()` instead of try-catch |
-| `sayo/tagged-error-required` | warn | Use `Schema.TaggedErrorClass` for typed errors |
-| `sayo/endpoint-response-schema-required` | warn | Endpoints must declare response schemas |
-| `sayo/endpoint-error-schema-required` | warn | Endpoints should declare error schemas |
-| `sayo/no-run-sync-in-handler` | error | Don't call `Effect.runSync` inside handlers |
-| `sayo/service-interface-separation` | warn | Separate service interface from implementation |
+| `@sayo-ts/no-raw-promise` | error | Use `Effect.tryPromise()` instead of raw Promise |
+| `@sayo-ts/no-try-catch` | error | Use `Effect.try()` / `Effect.fail()` instead of try-catch |
+| `@sayo-ts/tagged-error-required` | warn | Use `Schema.TaggedErrorClass` for typed errors |
+| `@sayo-ts/endpoint-response-schema-required` | warn | Endpoints must declare response schemas |
+| `@sayo-ts/endpoint-error-schema-required` | warn | Endpoints should declare error schemas |
+| `@sayo-ts/no-run-sync-in-handler` | error | Don't call `Effect.runSync` inside handlers |
+| `@sayo-ts/service-interface-separation` | warn | Separate service interface from implementation |
 
 Usage in `eslint.config.ts`:
 
 ```typescript
 import tsParser from "@typescript-eslint/parser"
-import sayo from "@sayo/eslint-plugin"
+import sayo from "@sayo-ts/eslint-plugin"
 
 export default [
   { files: ["**/*.ts"], languageOptions: { parser: tsParser } },
@@ -172,8 +172,8 @@ See the [Effect v4 documentation](https://effect.website) for details.
 
 | Package | Description |
 |---------|-------------|
-| `@sayo/eslint-plugin` | Convention enforcement via ESLint rules |
-| `@sayo/cli` | Scaffolding commands |
+| `@sayo-ts/eslint-plugin` | Convention enforcement via ESLint rules |
+| `@sayo-ts/cli` | Scaffolding commands |
 | `create-sayo-app` | Project generator |
 
 ## Requirements
