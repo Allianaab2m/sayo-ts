@@ -1,13 +1,42 @@
 {
   "name": "create-sayo-app",
   "version": "0.0.1",
+  "description": "Create a new sayo-ts application — an opinionated Effect v4 HttpApi starter",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "create-sayo-app": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allianaab2m/sayo-ts.git",
+    "directory": "packages/create-app"
+  },
+  "homepage": "https://github.com/Allianaab2m/sayo-ts#readme",
+  "bugs": "https://github.com/Allianaab2m/sayo-ts/issues",
+  "keywords": [
+    "create",
+    "starter",
+    "scaffold",
+    "effect",
+    "effect-ts",
+    "sayo",
+    "sayo-ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "giget": "^1.2.3"
   },
   "devDependencies": {
     "@types/node": "^25.6.0"
