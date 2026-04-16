@@ -67,13 +67,31 @@ const main = async () => {
     force: false,
   })
 
-  // Update package.json name and replace workspace: references with real versions
+  // Update package.json name and replace any workspace: reference with `latest`.
+  // The template lives in the monorepo, so its devDependencies use
+  // `"workspace:*"` — which is meaningless outside the monorepo. We also
+  // rewrite any legacy `@sayo/*` scope references to `@sayo-ts/*` so older
+  // template snapshots keep working until the rename is fully propagated.
   const pkgPath = join(targetDir, "package.json")
   const pkgJson = JSON.parse(await readFile(pkgPath, "utf-8"))
   pkgJson.name = projectName
 
-  if (pkgJson.devDependencies?.["@sayo-ts/eslint-plugin"] === "workspace:*") {
-    pkgJson.devDependencies["@sayo-ts/eslint-plugin"] = "^0.0.1"
+  for (const field of ["dependencies", "devDependencies"] as const) {
+    const deps = pkgJson[field]
+    if (!deps) continue
+    for (const [depName, depVersion] of Object.entries(deps) as Array<[string, string]>) {
+      // Rewrite legacy scope (temporary migration bridge).
+      if (depName.startsWith("@sayo/")) {
+        const renamed = depName.replace(/^@sayo\//, "@sayo-ts/")
+        delete deps[depName]
+        deps[renamed] = depVersion
+      }
+    }
+    for (const [depName, depVersion] of Object.entries(deps) as Array<[string, string]>) {
+      if (typeof depVersion === "string" && depVersion.startsWith("workspace:")) {
+        deps[depName] = "latest"
+      }
+    }
   }
 
   await writeFile(pkgPath, JSON.stringify(pkgJson, null, 2) + "\n")
