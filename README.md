@@ -12,7 +12,7 @@ sayo is an application framework for [Effect](https://effect.website) v4. You de
 ```sh
 vp create @sayo-ts      # pick the `api` template (https://viteplus.dev)
 cd my-api
-pnpm dev                # http://localhost:3000/todos, API reference at /docs
+pnpm dev                # sayo dev: http://localhost:3000/todos, API reference at /docs
 vp test                 # the whole API, in memory, through a typed client
 vp check                # format, lint and type check
 ```
@@ -198,6 +198,29 @@ App.make({
 - If a UseCase requires `CurrentUser` and the endpoint has no `.auth(...)`, it does not compile.
 - sayo does not replace `HttpApi`; it generates it. Hand-written `HttpApiEndpoint`s can be mixed into the same group.
 
+### Cli — binding UseCases to a command line
+
+The same UseCases, on a terminal. `@sayo-ts/cli` itself is written this way.
+
+```ts
+App.make({
+  cli: {
+    dev: Cli.command(Dev, { description: "Serve a profile and restart on changes" }),
+    generate: {
+      usecase: Cli.command(GenerateUseCase, { args: ["name"] }),
+    },
+  },
+  profiles: { node: [RunnerNode], test: [RunnerRecording] },
+})
+
+app.cli("node", { name: "sayo", version })(process.argv.slice(2)) // Effect<exit code>
+```
+
+- Input fields become flags (`dryRun` → `--dry-run`), decoded with their Schema. Fields named in `args` are positional. Optional fields are optional flags; Booleans are switches.
+- Nested records are subcommands: `sayo generate usecase <name>`.
+- Each Fault ends the process with the exit code of its kind, following sysexits: `NotFound` 66, `Conflict` 73, `Invalid` 65, and so on. A command line that does not decode exits with 64.
+- File system, path, terminal and child processes come from the CLI platform, so profiles never wire them.
+
 ### App and profiles — no hand-written wiring
 
 ```ts
@@ -280,8 +303,9 @@ it.effect("completes a todo", () =>
 | --- | --- |
 | `@sayo-ts/core` | `UseCase`, `Fault`, `Http`, `App` |
 | `@sayo-ts/create` | Templates for `vp create @sayo-ts`. The `api` template doubles as the example app. |
+| `@sayo-ts/cli` | `sayo dev` serves a profile and restarts on changes; `sayo generate usecase <name>` writes a skeleton. Built with `Cli`. |
 
-Project setup, tests, formatting and linting are left to [Vite+](https://viteplus.dev). A sayo CLI, if any, will only cover what Vite+ cannot: serving a profile in development and generating UseCases.
+Project setup, tests, formatting and linting are left to [Vite+](https://viteplus.dev). The sayo CLI only covers what Vite+ cannot.
 
 ## Open questions
 
