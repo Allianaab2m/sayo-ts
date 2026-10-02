@@ -1,0 +1,38 @@
+{
+  "name": "@sayo-ts/cli",
+  "version": "0.1.0",
+  "description": "The sayo command line, written with sayo.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Allianaab2m/sayo-ts",
+    "directory": "packages/cli"
+  },
+  "type": "module",
+  "bin": {
+    "sayo": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@effect/platform-node": "^4.0.0",
+    "@sayo-ts/core": "workspace:^",
+    "effect": "^4.0.0"
+  },
+  "devDependencies": {
+    "@effect/vitest": "4.0.0",
+    "@types/node": "^22.20.4",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}
