@@ -13,5 +13,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm -r --filter=\"./packages/*\" run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.1"
   }
 }

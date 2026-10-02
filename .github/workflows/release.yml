@@ -4,8 +4,8 @@ name: Release
 #
 # Prerequisites (one-time setup on https://www.npmjs.com):
 #   1. Create the npm org/scope `@sayo-ts` (or use a user scope).
-#   2. For each package (`@sayo-ts/eslint-plugin`, `@sayo-ts/cli`,
-#      `create-sayo-app`), open the package's "Settings" → "Publishing access"
+#   2. For each package (`@sayo-ts/core`, `@sayo-ts/cli`, `@sayo-ts/create`),
+#      open the package's "Settings" → "Publishing access"
 #      → "Add trusted publisher" → "GitHub Actions" and fill in:
 #        - Organization or user: Allianaab2m
 #        - Repository:           sayo-ts
@@ -48,9 +48,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # Node 24+ ships an npm that natively supports OIDC Trusted
-          # Publishers. Older Node versions work too as long as npm >= 11.5.1
-          # is available, but pinning to 24 keeps the toolchain predictable.
-          node-version: 24
+          # Publishers. .node-version pins a 24.x release.
+          node-version-file: .node-version
           registry-url: https://registry.npmjs.org
           cache: pnpm
 
