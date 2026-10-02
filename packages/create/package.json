@@ -1,0 +1,27 @@
+{
+  "name": "@sayo-ts/create",
+  "version": "0.1.0",
+  "description": "Templates for sayo apps. Run `vp create @sayo-ts`.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Allianaab2m/sayo-ts",
+    "directory": "packages/create"
+  },
+  "files": [
+    "templates",
+    "!templates/*/node_modules"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "createConfig": {
+    "templates": [
+      {
+        "name": "api",
+        "description": "A Web API from Schemas and UseCases (Effect v4)",
+        "template": "./templates/api"
+      }
+    ]
+  }
+}

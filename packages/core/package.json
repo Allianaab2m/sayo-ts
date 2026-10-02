@@ -1,0 +1,49 @@
+{
+  "name": "@sayo-ts/core",
+  "version": "0.1.0",
+  "description": "Write your data structures and your business logic. sayo turns them into a Web API.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Allianaab2m/sayo-ts",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./*": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "effect": "^4.0.0"
+  },
+  "devDependencies": {
+    "effect": "4.0.0",
+    "@effect/platform-node": "4.0.0",
+    "@effect/vitest": "4.0.0",
+    "@types/node": "^22.20.4",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}

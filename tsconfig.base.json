@@ -8,11 +8,11 @@
     "declarationMap": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
   }
 }

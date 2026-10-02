@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,19 +16,26 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .node-version
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # @sayo-ts/cli runs on core's compiled output, so build in dependency order
       - name: Build
-        run: pnpm -r --filter="./packages/*" run build
+        run: pnpm -r --filter "./packages/*" run build
 
+      - name: Type check
+        run: pnpm -r run check
+
+      # --if-present must come before the script name, or pnpm forwards it
       - name: Test
-        # Only @sayo-ts/eslint-plugin defines a `test` script today. When
-        # more packages add tests, either extend this filter or switch to
-        # `pnpm -r run --if-present test` (note: --if-present must appear
-        # before the script name so pnpm consumes it rather than forwarding
-        # it to the test runner).
-        run: pnpm --filter "@sayo-ts/eslint-plugin" test
+        run: pnpm -r run --if-present test
+
+      # The api template must pass what `vp create @sayo-ts` users run first
+      - name: Template (vp check, vp test)
+        working-directory: packages/create/templates/api
+        run: |
+          pnpm exec vp check
+          pnpm exec vp test

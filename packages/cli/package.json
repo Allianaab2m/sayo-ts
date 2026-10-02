@@ -1,40 +1,38 @@
 {
   "name": "@sayo-ts/cli",
-  "version": "0.0.2",
-  "description": "sayo-ts CLI — scaffold resource modules for Effect v4 HttpApi apps",
+  "version": "0.1.0",
+  "description": "The sayo command line, written with sayo.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Allianaab2m/sayo-ts",
+    "directory": "packages/cli"
+  },
   "type": "module",
   "bin": {
-    "sayo": "dist/index.js"
+    "sayo": "./dist/bin.js"
   },
   "files": [
     "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Allianaab2m/sayo-ts.git",
-    "directory": "packages/cli"
-  },
-  "homepage": "https://github.com/Allianaab2m/sayo-ts/tree/main/packages/cli#readme",
-  "bugs": "https://github.com/Allianaab2m/sayo-ts/issues",
-  "keywords": [
-    "cli",
-    "scaffolding",
-    "effect",
-    "effect-ts",
-    "sayo",
-    "sayo-ts"
+    "src"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf dist"
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@effect/platform-node": "^4.0.0",
+    "@sayo-ts/core": "workspace:^",
+    "effect": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0"
+    "@effect/vitest": "4.0.0",
+    "@types/node": "^22.20.4",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
   }
 }
