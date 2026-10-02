@@ -186,15 +186,29 @@ Http.group("/traffic-rules-tests", {
 App.make({
   modules: [reservations, users, hubs],
   profiles: {
-    local: [MailerConsole, SmsConsole, StorageLocal, PGlite],
-    test: [MailerInMemory, PGlite],
-    prod: [MailerResend, SmsTwilio, StorageGcs, Postgres],
+    local: [PGlite, TodosSql, MailerConsole, SmsConsole, StorageLocal],
+    test: [PGlite, TodosSql, MailerInMemory],
+    prod: [Postgres, TodosSql, MailerResend, SmsTwilio, StorageGcs],
   },
   guard: { local: () => process.env.NODE_ENV !== "production" },
 })
 ```
 
-sayo collects the requirements of every registered UseCase and picks their implementations from the active profile. A requirement missing from any profile is a compile error for that profile. A `guard` refuses to boot a profile in the wrong environment, so fakes never reach production.
+A profile lists layers in dependency order: each layer may use whatever the layers before it provide (`TodosSql` uses the database from `PGlite` or `Postgres`). At runtime that is all the wiring there is, a left fold. You never write `Layer.provide`.
+
+The type checker verifies every profile and reports the problem where it is:
+
+```ts
+prod: [
+  TodosSql, // Property '"SqlClient must be provided by a layer listed before this one"' is missing ...
+  Postgres,
+]
+local: [TodosSql], // Property '"Mailer is required by a UseCase but not provided by this profile"' is missing ...
+```
+
+Why an order instead of a bag of layers? A `Layer` does not reveal at runtime what it provides or requires, so resolving an unordered set would need either extra declarations on every layer or building layers by trial and error. An order costs you nothing the compiler cannot point out.
+
+A `guard` refuses to boot a profile in the wrong environment, so fakes never reach production.
 
 ### Module — where things live
 
@@ -241,7 +255,6 @@ UseCase.test(SubmitTest)
 
 - How input assembly resolves a field present in more than one of path, query and body
 - What has to be declared so that in-memory implementations of a `Service` can be generated
-- Whether automatic wiring stays cheap for the type checker in large applications
 - Whether lint rules are still worth shipping for what types cannot enforce (raw `Promise`, `try`/`catch`, `runSync` inside handlers)
 
 ## Requirements
