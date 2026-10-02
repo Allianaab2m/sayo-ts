@@ -1,3 +1,5 @@
 packages:
   - "packages/*"
-  - "examples/*"
+  # Templates are workspace members, so they run against the local packages
+  - "packages/create/templates/*"
+linkWorkspacePackages: true
