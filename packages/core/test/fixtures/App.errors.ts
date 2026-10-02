@@ -11,7 +11,7 @@ const FixedClock = Layer.succeed(Clock, { now: () => 0 })
 App.make({
   usecases: [CompleteTodo, Now],
   profiles: {
-    // expect: Clock is required by a UseCase but not provided by this profile
+    // expect: Clock is required by the app but not provided by this profile
     local: [TodosInMemory()],
     prod: [makeDb(), TodosFromDb, FixedClock]
   }
