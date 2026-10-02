@@ -1,26 +1,11 @@
 import { describe, expect, it } from "@effect/vitest"
-import { Effect, Layer, Ref, Schema } from "effect"
+import { Effect, Schema } from "effect"
 import { Fault } from "../src/index.ts"
-import { AlreadyDone, Todo, TodoId, TodoNotFound, Todos } from "./fixtures/domain.ts"
+import { AlreadyDone, Todo, TodoId, TodoNotFound } from "./fixtures/domain.ts"
+import { TodosInMemory } from "./fixtures/layers.ts"
 import { CompleteTodo } from "./UseCase.typecheck.ts"
 
 const todo = (done: boolean) => new Todo({ id: TodoId.make("t1"), title: "write README", done })
-
-const TodosInMemory = (initial: ReadonlyArray<Todo>) =>
-  Layer.effect(
-    Todos,
-    Effect.gen(function*() {
-      const store = yield* Ref.make(new Map(initial.map((t) => [t.id, t])))
-      return {
-        find: (id) =>
-          Effect.flatMap(Ref.get(store), (m) => {
-            const found = m.get(id)
-            return found ? Effect.succeed(found) : Effect.fail(new TodoNotFound({ id }))
-          }),
-        save: (t) => Ref.update(store, (m) => new Map(m).set(t.id, t))
-      }
-    })
-  )
 
 describe("UseCase", () => {
   it.effect("runs the body", () =>

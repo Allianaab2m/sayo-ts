@@ -36,6 +36,12 @@ export interface UseCase<
   readonly errors: Errors
 }
 
+/** Any UseCase, whatever its spec. */
+export type Any = UseCase<any, any, any, any>
+
+/** The services a UseCase requires. */
+export type Services<U> = U extends UseCase<any, any, any, infer R> ? R : never
+
 /** Instances of the declared Fault classes. */
 type Declared<Errors extends ReadonlyArray<Fault.Any>> = InstanceType<Errors[number]>
 

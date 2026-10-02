@@ -18,3 +18,12 @@ export class Todos extends Context.Service<Todos, {
   find: (id: TodoId) => Effect.Effect<Todo, TodoNotFound>
   save: (todo: Todo) => Effect.Effect<void>
 }>()("Todos") {}
+
+/** A lower-level service that a Todos implementation depends on. */
+export class Db extends Context.Service<Db, {
+  readonly rows: Map<string, Todo>
+}>()("Db") {}
+
+export class Clock extends Context.Service<Clock, {
+  readonly now: () => number
+}>()("Clock") {}
