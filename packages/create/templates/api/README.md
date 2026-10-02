@@ -3,7 +3,8 @@
 Write your data structures and your business logic. sayo turns them into a Web API.
 
 ```sh
-pnpm dev       # http://localhost:3000/todos, API reference at /docs
+pnpm dev       # sayo dev: http://localhost:3000/todos, API reference at /docs
+pnpm sayo generate usecase archive-todo   # writes src/archive-todo.ts
 vp test        # the whole API, in memory, through a typed client
 vp check       # format, lint and type check
 ```
