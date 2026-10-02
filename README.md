@@ -5,7 +5,17 @@
 sayo is an application framework for [Effect](https://effect.website) v4. You describe the shape of your data with `Schema` and your business logic as `UseCase`s. Everything else — HTTP binding, validation, OpenAPI, a typed client, dependency wiring, environment switching, test setup — is derived from those two.
 
 > [!NOTE]
-> This is a design draft. Nothing described here is implemented yet. All APIs are tentative.
+> Early stage. `UseCase`, `Fault`, `App` and `Http` work; the rest of this README is still a design draft. All APIs are tentative.
+
+## Getting started
+
+```sh
+vp create @sayo-ts      # pick the `api` template (https://viteplus.dev)
+cd my-api
+pnpm dev                # http://localhost:3000/todos, API reference at /docs
+vp test                 # the whole API, in memory, through a typed client
+vp check                # format, lint and type check
+```
 
 ## One screen
 
@@ -61,9 +71,8 @@ export default App.make({
 ```
 
 ```sh
-sayo dev                  # starts with the `local` profile, restarts on save
-sayo test
-sayo build --target node
+pnpm dev     # serves the `local` profile, restarts on save
+vp test
 ```
 
 From this you get:
@@ -269,9 +278,10 @@ it.effect("completes a todo", () =>
 
 | Package | Description |
 | --- | --- |
-| `@sayo-ts/core` | `UseCase`, `Fault`, `Service`, `Http`, `App` |
-| `@sayo-ts/cli` | `sayo dev` / `test` / `build` / `generate` |
-| `create-sayo-app` | Project generator |
+| `@sayo-ts/core` | `UseCase`, `Fault`, `Http`, `App` |
+| `@sayo-ts/create` | Templates for `vp create @sayo-ts`. The `api` template doubles as the example app. |
+
+Project setup, tests, formatting and linting are left to [Vite+](https://viteplus.dev). A sayo CLI, if any, will only cover what Vite+ cannot: serving a profile in development and generating UseCases.
 
 ## Open questions
 
