@@ -8,6 +8,25 @@ importers:
 
   .: {}
 
+  examples/todo:
+    dependencies:
+      '@effect/platform-node':
+        specifier: 4.0.0
+        version: 4.0.0(effect@4.0.0)(redis@6.3.0)
+      '@sayo-ts/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      effect:
+        specifier: 4.0.0
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.20.4
+        version: 22.20.4
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
+
   packages/core:
     dependencies:
       effect:
