@@ -118,14 +118,14 @@ const CompleteTodo = UseCase.make({
   success: Todo,
   errors: [TodoNotFound],
 })(function* ({ id }) {
+//~~~~~~~~~~~~~~~~~~~
+// Property '"Fault AlreadyDone is not declared in errors"' is missing ...
   // ...
   if (todo.done) return yield* new AlreadyDone()
-  //                           ~~~~~~~~~~~~~~~
-  // Fault 'AlreadyDone' is not declared in errors.
 })
 ```
 
-A declared error that the body can never fail with is also a type error, so your OpenAPI never documents a 404 that cannot happen. In practice you copy the list the compiler gives you.
+The other direction is checked too: a declared error that the body can never fail with is reported as `Fault X is declared in errors but never raised`, so your OpenAPI never documents a 404 that cannot happen. Errors that are not Faults (`Error X is not a Fault. Map it to a Fault, or die`) and a return value that does not match `success` are rejected the same way. In practice you copy the list the compiler gives you.
 
 A UseCase needs no name. It gets one from where it is registered (`todos.complete`). Pass `name` only when it has to stay stable across refactors, for example when it is exposed over RPC:
 
