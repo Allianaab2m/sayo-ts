@@ -48,9 +48,11 @@ const CompleteTodo = UseCase.make({
 
 // Expose it
 export default App.make({
-  http: Http.group("/todos", {
-    complete: Http.post("/:id/complete", CompleteTodo),
-  }),
+  http: {
+    todos: Http.group("/todos", {
+      complete: Http.post("/:id/complete", CompleteTodo),
+    }),
+  },
   profiles: {
     local: [TodosInMemory],
     prod: [TodosPostgres],
@@ -161,13 +163,20 @@ Persistence is deliberately out of scope. sayo does not ship an ORM; you impleme
 ### Http — binding UseCases to HTTP
 
 ```ts
-Http.group("/traffic-rules-tests", {
-  active: Http.get("/active", GetActiveTestSet).view(ActiveTestSetView),
-  submit: Http.post("/:testSetId/submit", SubmitTest).view(ResultView),
+App.make({
+  http: {
+    trafficRulesTests: Http.group("/traffic-rules-tests", {
+      active: Http.get("/active", GetActiveTestSet).view(ActiveTestSetView),
+      submit: Http.post("/:testSetId/submit", SubmitTest).view(ResultView),
+    }).auth(BearerUser),
+  },
+  profiles: { /* ... */ },
 })
-  .auth(BearerUser)
-  .tag("Traffic Rules Tests")
 ```
+
+- Groups are named by their key in `http`, endpoints by their key in the group. Those names are what the generated client uses: `client.trafficRulesTests.submit(...)`.
+- `.auth(...)` takes an `HttpApiMiddleware`. Whatever it provides (the current user) is subtracted from what the profile must wire; the middleware itself must be in every profile.
+- A path parameter that is not an input field does not compile: `Path parameter todoId is not a field of the UseCase input`.
 
 - Input is assembled by convention: path parameters match input fields by name; the rest comes from the query string for `GET` and from the body otherwise. Override with `.input(...)`.
 - A `View` converts the UseCase's success value into the response DTO. It is a Schema, written once, and may be effectful:
@@ -235,6 +244,19 @@ UseCase.test(SubmitTest)
 
 - `fixture(Schema, overrides?)` builds a value from the Schema's arbitrary. No hand-assembled test users.
 - A missing stub is a compile error.
+
+HTTP needs no separate controller tests. Serve the app on a test profile over an in-memory platform and call it through the generated, typed client:
+
+```ts
+const TestServer = HttpRouter.serve(app.http("test")).pipe(Layer.provideMerge(NodeHttpServer.layerTest))
+
+it.effect("completes a todo", () =>
+  Effect.gen(function* () {
+    const client = yield* HttpApiClient.make(app.api)
+    const done = yield* client.todos.complete({ params: { id } }) // typed from the UseCase
+    expect(done.done).toBe(true)
+  }).pipe(Effect.provide(TestServer)))
+```
 
 ## Non-goals
 
