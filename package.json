@@ -1,13 +1,17 @@
 {
   "name": "sayo-ts",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
   },
-  "keywords": [],
-  "author": "Alliana",
-  "license": "MIT",
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@11.8.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "check": "pnpm -r run check",
+    "test": "pnpm -r run test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm -r --filter=\"./packages/*\" run build && changeset publish"
+  }
 }
