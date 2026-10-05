@@ -1,0 +1,80 @@
+---
+title: sayo
+description: Write your data structures and your business logic. sayo turns them into a Web API.
+template: splash
+hero:
+  tagline: Write your data structures and your business logic. sayo turns them into a Web API.
+  actions:
+    - text: Get started
+      link: /sayo-ts/getting-started/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/Allianaab2m/sayo-ts
+      icon: external
+      variant: minimal
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+
+sayo is an application framework for [Effect](https://effect.website) v4. You describe the shape of your data with `Schema` and your business logic as `UseCase`s. Everything else (HTTP binding, validation, OpenAPI, a typed client, dependency wiring, environment switching, test setup) is derived from those two.
+
+<Aside>
+  Early stage. `UseCase`, `Fault`, `App` and `Http` work; the rest is still a design draft. All APIs are tentative.
+</Aside>
+
+## You write this
+
+```ts
+const CompleteTodo = UseCase.make({
+  input: { id: TodoId },
+  success: Todo,
+  errors: [TodoNotFound, AlreadyDone],
+})(function* ({ id }) {
+  const todos = yield* Todos
+  const todo = yield* todos.find(id)
+  if (todo.done) return yield* new AlreadyDone()
+  const done = new Todo({ ...todo, done: true })
+  yield* todos.save(done)
+  return done
+})
+
+export default App.make({
+  http: {
+    todos: Http.group("/todos", {
+      complete: Http.post("/:id/complete", CompleteTodo),
+    }),
+  },
+  profiles: {
+    local: [TodosInMemory],
+    prod: [TodosPostgres],
+  },
+})
+```
+
+## You get this
+
+<CardGrid>
+  <Card title="An endpoint" icon="rocket">
+    `POST /todos/:id/complete`, with `id` decoded and validated as `TodoId`.
+  </Card>
+  <Card title="Status codes from Faults" icon="warning">
+    `TodoNotFound` is answered as 404 and `AlreadyDone` as 409, without registering either on the endpoint.
+  </Card>
+  <Card title="OpenAPI and a typed client" icon="document">
+    An API reference at `/docs`, and a client for your frontend typed from the UseCase.
+  </Card>
+  <Card title="Wiring checked by the compiler" icon="approve-check">
+    A compile error if any profile is missing an implementation of `Todos`.
+  </Card>
+</CardGrid>
+
+## Start
+
+```sh
+vp create @sayo-ts      # pick the `api` template
+cd my-api
+pnpm install
+pnpm dev                # http://localhost:3000/todos, API reference at /docs
+```
+
+Continue with [Getting started](getting-started/).

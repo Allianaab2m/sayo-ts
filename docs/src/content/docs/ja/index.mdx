@@ -1,0 +1,80 @@
+---
+title: sayo
+description: データ構造とビジネスロジックを書けば，sayo が Web API にする．
+template: splash
+hero:
+  tagline: データ構造とビジネスロジックを書けば，sayo が Web API にする．
+  actions:
+    - text: はじめる
+      link: /sayo-ts/ja/getting-started/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/Allianaab2m/sayo-ts
+      icon: external
+      variant: minimal
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+
+sayo は [Effect](https://effect.website) v4 向けのアプリケーションフレームワーク．データの形を `Schema` で，ビジネスロジックを `UseCase` で書く．HTTP へのバインド，バリデーション，OpenAPI，型付きクライアント，依存の配線，環境の切り替え，テストの準備は，すべてこの2つから導出する．
+
+<Aside>
+  開発初期の段階．動くのは `UseCase`，`Fault`，`App`，`Http` で，それ以外はまだ設計案．API はすべて仮のもの．
+</Aside>
+
+## 書くのはこれだけ
+
+```ts
+const CompleteTodo = UseCase.make({
+  input: { id: TodoId },
+  success: Todo,
+  errors: [TodoNotFound, AlreadyDone],
+})(function* ({ id }) {
+  const todos = yield* Todos
+  const todo = yield* todos.find(id)
+  if (todo.done) return yield* new AlreadyDone()
+  const done = new Todo({ ...todo, done: true })
+  yield* todos.save(done)
+  return done
+})
+
+export default App.make({
+  http: {
+    todos: Http.group("/todos", {
+      complete: Http.post("/:id/complete", CompleteTodo),
+    }),
+  },
+  profiles: {
+    local: [TodosInMemory],
+    prod: [TodosPostgres],
+  },
+})
+```
+
+## 手に入るもの
+
+<CardGrid>
+  <Card title="エンドポイント" icon="rocket">
+    `POST /todos/:id/complete`．`id` は `TodoId` としてデコード，検証される．
+  </Card>
+  <Card title="Fault からステータスコード" icon="warning">
+    `TodoNotFound` は 404，`AlreadyDone` は 409 で返る．エンドポイントに登録する必要はない．
+  </Card>
+  <Card title="OpenAPI と型付きクライアント" icon="document">
+    `/docs` に API リファレンスが出る．フロントエンド用のクライアントは UseCase から型が付く．
+  </Card>
+  <Card title="配線はコンパイラが検査する" icon="approve-check">
+    `Todos` の実装が欠けている profile があれば，コンパイルエラーになる．
+  </Card>
+</CardGrid>
+
+## 始める
+
+```sh
+vp create @sayo-ts      # `api` テンプレートを選ぶ
+cd my-api
+pnpm install
+pnpm dev                # http://localhost:3000/todos，API リファレンスは /docs
+```
+
+続きは [はじめる](getting-started/) へ．
