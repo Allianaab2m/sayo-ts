@@ -196,11 +196,11 @@ A failure that no layer can do anything about (a broken invariant, a malformed r
 ### UseCase — the unit of business logic
 
 ```ts
-const SubmitTest = UseCase.make({
-  input: { testSetId: TestSetId, answers: Schema.Array(Answer) },
-  success: TestResult,
-  errors: [TestSetNotFound, AlreadySubmitted, InvalidAnswers],
-})(function* ({ testSetId, answers }) {
+const InviteMember = UseCase.make({
+  input: { projectId: ProjectId, email: Email },
+  success: Invitation,
+  errors: [ProjectNotFound, NotProjectOwner, AlreadyMember],
+})(function* ({ projectId, email }) {
   const { user } = yield* CurrentUser // needing an authenticated user shows up in the requirements
   const now = yield* DateTime.now
   // ...
@@ -236,10 +236,10 @@ Contract and implementation can be split, so a frontend imports the contract wit
 
 ```ts
 // contract.ts — shared with the frontend
-export const SubmitTest = UseCase.contract({ input, success, errors })
+export const InviteMember = UseCase.contract({ input, success, errors })
 
 // server.ts
-export const SubmitTestLive = SubmitTest.implement(function* (input) { /* ... */ })
+export const InviteMemberLive = InviteMember.implement(function* (input) { /* ... */ })
 ```
 
 ### Service — boundaries to the outside world
@@ -262,16 +262,16 @@ Persistence is deliberately out of scope. sayo does not ship an ORM; you impleme
 ```ts
 App.make({
   http: {
-    trafficRulesTests: Http.group("/traffic-rules-tests", {
-      active: Http.get("/active", GetActiveTestSet).view(ActiveTestSetView),
-      submit: Http.post("/:testSetId/submit", SubmitTest).view(ResultView),
+    projects: Http.group("/projects", {
+      get: Http.get("/:projectId", GetProject).view(ProjectView),
+      invite: Http.post("/:projectId/invitations", InviteMember).view(InvitationView),
     }).auth(BearerUser),
   },
   profiles: { /* ... */ },
 })
 ```
 
-- Groups are named by their key in `http`, endpoints by their key in the group. Those names are what the generated client uses: `client.trafficRulesTests.submit(...)`.
+- Groups are named by their key in `http`, endpoints by their key in the group. Those names are what the generated client uses: `client.projects.invite(...)`.
 - `.auth(...)` takes an `HttpApiMiddleware`. Whatever it provides (the current user) is subtracted from what the profile must wire; the middleware itself must be in every profile.
 - A path parameter that is not an input field does not compile: `Path parameter todoId is not a field of the UseCase input`.
 
@@ -279,8 +279,8 @@ App.make({
 - A `View` converts the UseCase's success value into the response DTO. It is a Schema, written once, and may be effectful:
 
   ```ts
-  const ActiveTestSetView = View.make(TestSet, ActiveTestSetDto, (set) =>
-    Effect.map(CurrentLocale, (locale) => set.resolveForLanguage(locale)))
+  const ProjectView = View.make(Project, ProjectDto, (project) =>
+    Effect.map(CurrentUser, ({ user }) => ProjectDto.forViewer(project, user)))
   ```
 
 - If a UseCase requires `CurrentUser` and the endpoint has no `.auth(...)`, it does not compile.
@@ -313,11 +313,11 @@ app.cli("node", { name: "sayo", version })(process.argv.slice(2)) // Effect<exit
 
 ```ts
 App.make({
-  modules: [reservations, users, hubs],
+  modules: [todos, projects, users],
   profiles: {
-    local: [PGlite, TodosSql, MailerConsole, SmsConsole, StorageLocal],
+    local: [PGlite, TodosSql, MailerConsole, StorageLocal],
     test: [PGlite, TodosSql, MailerInMemory],
-    prod: [Postgres, TodosSql, MailerResend, SmsTwilio, StorageGcs],
+    prod: [Postgres, TodosSql, MailerResend, StorageS3],
   },
   guard: { local: () => process.env.NODE_ENV !== "production" },
 })
@@ -342,10 +342,10 @@ A `guard` refuses to boot a profile in the wrong environment, so fakes never rea
 ### Module — where things live
 
 ```ts
-export const reservations = Module.make("reservations", {
-  http: ReservationHttp,
-  jobs: [Job.cron("0 9 * * *", SendReturnReminders)],
-  events: [Event.on(ReservationConfirmed, NotifyHub)],
+export const todos = Module.make("todos", {
+  http: TodoHttp,
+  jobs: [Job.cron("0 9 * * *", SendDueReminders)],
+  events: [Event.on(TodoAssigned, NotifyAssignee)],
 })
 ```
 
@@ -354,12 +354,12 @@ No file-system scanning. Modules are values you register. The same UseCase can b
 ### Testing
 
 ```ts
-UseCase.test(SubmitTest)
-  .given(TestSetsInMemory([fixture(TestSet)]))
+UseCase.test(InviteMember)
+  .given(ProjectsInMemory([fixture(Project)]))
   .as(fixture(User))
   .at("2026-10-02T09:00:00+09:00") // advances the TestClock
-  .run({ testSetId, answers })
-// → Exit<TestResult, TestSetNotFound | AlreadySubmitted | InvalidAnswers>
+  .run({ projectId, email })
+// → Exit<Invitation, ProjectNotFound | NotProjectOwner | AlreadyMember>
 ```
 
 - `fixture(Schema, overrides?)` builds a value from the Schema's arbitrary. No hand-assembled test users.
